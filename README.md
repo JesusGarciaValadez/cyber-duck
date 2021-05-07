@@ -1,62 +1,76 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>
+# Currency Conversion API
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+## Pre-requisites
 
-## About Laravel
+- Docker locally.
+- Git installed locally.
+- PHP installed locally.
+- [Composer](https://getcomposer.org/download/) installed locally.
+- Before starting, you should ensure that no other web servers or databases are running on your local computer.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## Requisites
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+- Clone the repository locally with `git clone git@github.com:JesusGarciaValadez/cyber-duck.git`.
+- Accessing to the repository with `cd cyber-duck`;
+- Copy the `.env.example` file as `.env` and `.env.testing` files.
+- Replace the following values in the `.env` file:
+```
+APP_NAME=
+APP_URL=
+...
+DB_DATABASE=
+DB_USERNAME=
+DB_PASSWORD=
+```
+- For the `APP_URL` you can use the `http://localhost`.
+- For the `.env.testing` file, you can leave the current values if you want.
+- You can use wherever values do you want to use for the database setup.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## Installation instructions
 
-## Learning Laravel
+### How to create the container?
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+- Install the composer dependencies with `composer install`;
+- Run the command `php artisan sail:install` to publish the necessary for Docker to run.
+- Create the Docker container using `./vendor/bin/sail up -d` for the detached mode.
+- This will create the container using some environment variables of your `.env` file.
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 1500 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+### How to create the database?
 
-## Laravel Sponsors
+Once the container was created and running, you have to run the following commands:
+```
+./vendor/bin/sail artisan key:generate;
+./vendor/bin/sail artisan migrate:fresh;
+./vendor/bin/sail artisan migrate:fresh --env=testing;
+```
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+### How to run the tests?
 
-### Premium Partners
+You can run the following command `./vendor/bin/sail test`.
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
+### How to interact with the database?
 
-## Contributing
+You can access the database using `127.0.0.1` as `host` and the same values for the `DB_USERNAME`, `DB_PASSWORD`, and `DB_USERNAME` stored in your `.env` file.
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+# Setup the symlink to the storage
 
-## Code of Conduct
+You have to set up a link to the storage to make logos public. Just run the following command:
+```
+./vendor/bin/sail art storage:link
+```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+### How to stop the containers?
 
-## Security Vulnerabilities
+You can stop the containers using `./vendor/bin/sail down`.
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+### What if I already had installed the docker images and containers before?
 
-## License
+You need to recreate the container running `docker-compose build`, or stop the containers and images, deletep them, and run `./vendor/bin/sail up -d` to download the images again and rebuild them.
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+## How to use the app?
+
+You can login enter to ['Login'](`http://localhost/login`) using `admin@admin.com` as username and `password` as password. If you logged successfully, you can see the [`Dashboard`](`http://localhost/dashboard`) where you can acces to either [`Companies`]('http://localhost/companies') section or the [`Employees`]('http://localhost/employees') section.
+
+## Deploy to production
+
+You can see the result of the app deployed to [production](http://45.77.186.219/)

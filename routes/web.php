@@ -14,5 +14,17 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    if(\Illuminate\Support\Facades\Auth::guest()) {
+        return view('auth.login');
+    }
+    return view('dashboard');
 });
+
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware(['auth'])->name('dashboard');
+
+Route::resource('company', \App\Http\Controllers\CompanyController::class)->middleware(['auth']);
+Route::resource('employee', \App\Http\Controllers\EmployeeController::class)->middleware(['auth']);
+
+require __DIR__.'/auth.php';
